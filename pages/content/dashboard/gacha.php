@@ -7,7 +7,8 @@ function isJadwalBentrok($guru_id, $hari_id, $waktu_id, $db_connect)
               FROM tbl_jadwal
               WHERE guru_id = $guru_id
                 AND hari_id = '$hari_id'
-                AND waktu_id = $waktu_id";
+                AND waktu_id = $waktu_id
+                AND status_deleted = 0";
 
     $result = mysqli_query($db_connect, $query);
     $count = mysqli_fetch_assoc($result)['count'];
@@ -18,7 +19,7 @@ function isJadwalBentrok($guru_id, $hari_id, $waktu_id, $db_connect)
 function generateRandomDataFromDatabase($db_connect)
 {
     // Mendapatkan data guru acak
-    $guruQuery = mysqli_query($db_connect, "SELECT guru_id, nama_guru FROM tbl_guru ORDER BY RAND() LIMIT 1");
+    $guruQuery = mysqli_query($db_connect, "SELECT guru_id, nama_guru FROM tbl_guru WHERE status_deleted = 0 ORDER BY RAND() LIMIT 1");
     $guruData = mysqli_fetch_assoc($guruQuery);
     $guru_id = $guruData['guru_id'];
 
@@ -27,7 +28,7 @@ function generateRandomDataFromDatabase($db_connect)
         SELECT m.mapel_id, m.nama_mapel
         FROM tbl_mapel m
         LEFT JOIN tbl_jadwal j ON m.mapel_id = j.mapel_id AND j.guru_id = $guru_id
-        WHERE j.guru_id IS NULL
+        WHERE j.guru_id IS NULL AND m.status_deleted = 0
         ORDER BY RAND()
         LIMIT 1
     ");
@@ -35,10 +36,10 @@ function generateRandomDataFromDatabase($db_connect)
     $mapel_id = $mapelData['mapel_id'];
 
     // Mendapatkan data ruangan, kelas, hari, dan waktu secara acak
-    $ruanganQuery = mysqli_query($db_connect, "SELECT no_ruangan FROM tbl_ruangan ORDER BY RAND() LIMIT 1");
+    $ruanganQuery = mysqli_query($db_connect, "SELECT no_ruangan FROM tbl_ruangan WHERE status_deleted = 0 ORDER BY RAND() LIMIT 1");
     $no_ruangan = mysqli_fetch_assoc($ruanganQuery)['no_ruangan'];
 
-    $kelasQuery = mysqli_query($db_connect, "SELECT nama_kelas FROM tbl_kelas ORDER BY RAND() LIMIT 1");
+    $kelasQuery = mysqli_query($db_connect, "SELECT nama_kelas FROM tbl_kelas WHERE status_deleted = 0 ORDER BY RAND() LIMIT 1");
     $nama_kelas = mysqli_fetch_assoc($kelasQuery)['nama_kelas'];
 
     $hariQuery = mysqli_query($db_connect, "SELECT nama_hari FROM tbl_hari ORDER BY RAND() LIMIT 1");
@@ -52,10 +53,10 @@ function generateRandomDataFromDatabase($db_connect)
     // Cek apakah jadwal bentrok
     while (isJadwalBentrok($guru_id, $nama_hari, $waktu_id, $db_connect)) {
         // Jika bentrok, ambil data baru
-        $ruanganQuery = mysqli_query($db_connect, "SELECT no_ruangan FROM tbl_ruangan ORDER BY RAND() LIMIT 1");
+        $ruanganQuery = mysqli_query($db_connect, "SELECT no_ruangan FROM tbl_ruangan WHERE status_deleted = 0 ORDER BY RAND() LIMIT 1");
         $no_ruangan = mysqli_fetch_assoc($ruanganQuery)['no_ruangan'];
 
-        $kelasQuery = mysqli_query($db_connect, "SELECT nama_kelas FROM tbl_kelas ORDER BY RAND() LIMIT 1");
+        $kelasQuery = mysqli_query($db_connect, "SELECT nama_kelas FROM tbl_kelas WHERE status_deleted = 0 ORDER BY RAND() LIMIT 1");
         $nama_kelas = mysqli_fetch_assoc($kelasQuery)['nama_kelas'];
 
         $hariQuery = mysqli_query($db_connect, "SELECT nama_hari FROM tbl_hari ORDER BY RAND() LIMIT 1");
@@ -86,6 +87,17 @@ for ($i = 0; $i < 10; $i++) {
 
 // Menyimpan data ke dalam database
 foreach ($randomDataArray as $randomData) {
+    // Cek apakah batas data sudah tercapai
+    $maxDataLimit = 20; // Ganti dengan batas yang diinginkan
+    $currentDataCount = countJadwalData($db_connect); // Implementasikan fungsi untuk menghitung jumlah data yang sudah ada
+    
+    if ($currentDataCount >= $maxDataLimit) {
+        // Batas data sudah tercapai, berikan notifikasi
+        echo "Data sudah mencapai batas. Tidak dapat menambahkan data lebih lanjut.";
+        exit(); // Atau lakukan aksi lain sesuai kebutuhan
+    }
+
+    // Eksekusi query
     $sql = "INSERT INTO tbl_jadwal (mapel_id, guru_id, ruangan_id, kelas_id, hari_id, waktu_id)
             SELECT '$randomData[mapel_id]', '$randomData[guru_id]', r.ruangan_id, k.kelas_id, h.hari_id, '$randomData[waktu_id]'
             FROM tbl_ruangan r, tbl_kelas k, tbl_hari h
@@ -93,11 +105,18 @@ foreach ($randomDataArray as $randomData) {
               AND k.nama_kelas = '$randomData[nama_kelas]'
               AND h.nama_hari = '$randomData[nama_hari]'";
 
-    // Eksekusi query
     mysqli_query($db_connect, $sql);
 }
 
 // Redirect kembali ke halaman sebelumnya (dashboard)
 header("Location: {$_SERVER['HTTP_REFERER']}");
 exit();
+
+// Fungsi untuk menghitung jumlah data yang sudah ada
+function countJadwalData($db_connect)
+{
+    $countQuery = mysqli_query($db_connect, "SELECT COUNT(*) as count FROM tbl_jadwal WHERE status_deleted = 0");
+    $count = mysqli_fetch_assoc($countQuery)['count'];
+    return $count;
+}
 ?>

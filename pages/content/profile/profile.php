@@ -63,6 +63,49 @@ require_once("{$base_dir}pages{$ds}core{$ds}header.php");
             <div class="card-body pt-3">
               <!-- Bordered Tabs -->
               <ul class="nav nav-tabs nav-tabs-bordered">
+              <?php
+                $isOperationSuccess = isset($_GET['success']) && $_GET['success'] === 'true';
+                $isDataEdited = isset($_GET['edited']) && $_GET['edited'] === 'true';
+                $isDataDeleted = isset($_GET['deleted']) && $_GET['deleted'] === 'true';
+              ?>
+                <!-- Start Alert Edit -->
+                <?php if ($isDataEdited): ?>
+                  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <i class="bi bi-pencil-square me-1"></i>
+                    Profilemu Berhasil Diedit!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+                    <script>
+                      const url = new URL(window.location.href);
+                      url.searchParams.delete('edited');
+                      window.history.replaceState({}, document.title, url.href);
+
+                      setTimeout(function() {
+                        document.querySelector('.alert-warning').style.display = 'none';
+                      }, 2000);
+                    </script>
+
+                   </div>
+                <?php endif; ?>
+                <!-- End Alert Edit -->
+                <?php if ($isOperationSuccess): ?>
+                  <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                    <i class="bi bi-plus-circle me-1"></i>
+                      Password Berhasil Diganti!
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+                      <script>
+                        const url = new URL(window.location.href);
+                        url.searchParams.delete('success');
+                        window.history.replaceState({}, document.title, url.href);
+
+                        setTimeout(function() {
+                          document.querySelector('.alert-primary').style.display = 'none';
+                        }, 2000);
+                      </script>
+
+                    </div>
+                  <?php endif; ?>
 
                 <li class="nav-item">
                   <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>

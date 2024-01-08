@@ -18,10 +18,12 @@ class Authentication {
             if(password_verify($password, $data['password'])) {
                 $this->authorizeUser($data);
             } else {
-                echo "Password salah";
+                header('Location:../login.php?error=1');
+                die;
             }
         } else {
-            echo "Email atau password salah";
+            header('Location:../login.php?error=invalid_credentials');
+            die;
         }
     }
 

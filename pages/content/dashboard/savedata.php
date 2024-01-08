@@ -11,8 +11,22 @@ mysqli_autocommit($db_connect, false);
 
 // Ambil data jadwal dari tabel tbl_jadwal
 $jadwal = mysqli_query($db_connect, "
-    SELECT id_jadwal, mapel_id, guru_id, ruangan_id, kelas_id, hari_id, waktu_id
-    FROM tbl_jadwal
+    SELECT 
+        jadwal.id_jadwal,
+        mapel.nama_mapel,
+        guru.nama_guru,
+        ruangan.no_ruangan,
+        kelas.nama_kelas,
+        hari.nama_hari,
+        waktu.waktu_mulai,
+        waktu.waktu_selesai
+        FROM tbl_jadwal jadwal
+        JOIN tbl_hari hari ON jadwal.hari_id = hari.hari_id
+        JOIN tbl_waktu waktu ON jadwal.waktu_id = waktu.waktu_id
+        JOIN tbl_mapel mapel ON jadwal.mapel_id = mapel.mapel_id
+        JOIN tbl_kelas kelas ON jadwal.kelas_id = kelas.kelas_id
+        JOIN tbl_guru guru ON jadwal.guru_id = guru.guru_id
+        JOIN tbl_ruangan ruangan ON jadwal.ruangan_id = ruangan.ruangan_id
 ");
 
 // Ambil tahun saat ini (misalnya, tahun 2023)
@@ -23,14 +37,25 @@ while ($row = mysqli_fetch_assoc($jadwal)) {
     $check_query = mysqli_query($db_connect, "
         SELECT id_periode
         FROM tbl_periode
-        WHERE id_jadwal = '{$row['id_jadwal']}' AND tahun = '$tahun_sekarang' AND semester = '$semester_sekarang'
+        WHERE id_periode = '{$row['id_jadwal']}' AND tahun = '$tahun_sekarang' AND semester = '$semester_sekarang'
     ");
 
     if (mysqli_num_rows($check_query) == 0) {
         // Jika belum ada, lakukan INSERT
         $insert_query = mysqli_query($db_connect, "
-            INSERT INTO tbl_periode (id_jadwal, tahun, semester)
-            VALUES ('{$row['id_jadwal']}', '$tahun_sekarang', '$semester_sekarang')
+            INSERT INTO tbl_periode (nama_mapel, nama_hari, nama_guru, nama_kelas, no_ruangan, waktu_mulai, waktu_selesai, tahun, semester)
+            VALUES (
+ 
+                '{$row['nama_mapel']}', 
+                '{$row['nama_hari']}', 
+                '{$row['nama_guru']}', 
+                '{$row['nama_kelas']}', 
+                '{$row['no_ruangan']}', 
+                '{$row['waktu_mulai']}', 
+                '{$row['waktu_selesai']}', 
+                '$tahun_sekarang', 
+                '$semester_sekarang'
+            )
         ");
 
         // Hentikan loop jika ada kesalahan
@@ -39,7 +64,6 @@ while ($row = mysqli_fetch_assoc($jadwal)) {
             echo "Terjadi kesalahan saat menyimpan data di tbl_periode.";
             exit();
         }
-        
     }
 }
 

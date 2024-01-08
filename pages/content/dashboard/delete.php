@@ -21,7 +21,7 @@ if (isset($_GET['id_jadwal'])) {
     $jadwalManager->deleteJadwal($id_jadwal);
 
     // Alihkan ke halaman utama setelah penghapusan
-    header("Location: dashboard.php");
+    header("Location: dashboard.php?deleted=true");
     exit();
 } else {
     // Alihkan ke halaman utama jika ID tidak disediakan

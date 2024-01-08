@@ -39,7 +39,7 @@ if (isset($_GET['id'])) {
             $update_query = "UPDATE tbl_mapel SET nama_mapel='$nama_mapel_baru' WHERE mapel_id=$mapel_id";
             if (mysqli_query($db_connect, $update_query)) {
                 // Alihkan ke halaman utama setelah pengeditan
-                header("Location: mapel.php");
+                header("Location: mapel.php?edited=true");
                 exit();
             } else {
                 // Handle error jika kueri tidak berhasil
@@ -55,20 +55,66 @@ if (isset($_GET['id'])) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Mata Pelajaran</title>
-</head>
-<body>
-    <h1>Edit Mata Pelajaran</h1>
-    <form method="POST">
-        <label for="nama_mapel_baru">Nama Mata Pelajaran:</label>
-        <input type="text" id="nama_mapel_baru" name="nama_mapel_baru" value="<?=$nama_mapel_sebelum?>" required>
+<?php
+    // Mulai sesi jika belum dimulai
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
 
-        <button type="submit">Simpan</button>
-    </form>
-</body>
-</html>
+    // Periksa apakah pengguna sudah login
+    if (!isset($_SESSION['role'])) {
+        // Jika belum login, redirect ke halaman login
+        header("Location: ../../../login.php");
+        exit();
+    }
+
+    // Periksa apakah pengguna memiliki peran super admin atau admin
+    if ($_SESSION['role'] !== 'admin') {
+        // Jika bukan super admin atau admin, tampilkan pesan atau redirect ke halaman lain
+        header("Location: ../../../login.php");
+        exit();
+    }
+
+
+$ds = DIRECTORY_SEPARATOR;
+$base_dir = realpath(dirname(__FILE__) . $ds . '..' . $ds . '..' . $ds . '..') . $ds;
+require_once("{$base_dir}pages{$ds}core{$ds}header.php");
+
+?>
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Edit Data Mapel</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="mapel.php">Data Mapel</a></li>
+                <li class="breadcrumb-item active">Edit Data Mapel</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Edit Data Mapel</h5>
+
+            <form method="POST">
+                <div class="row mb-3">
+                    <label for="nama_mapel_baru" class="col-sm-2 col-form-label">Nama Mapel:</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="nama_mapel_baru" name="nama_mapel_baru" value="<?=$nama_mapel_sebelum?>" required>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <a href="mapel.php">Kembali</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    </main><!-- End #main -->
+
+
+<?php
+require_once("{$base_dir}pages{$ds}core{$ds}footer.php");
+?>

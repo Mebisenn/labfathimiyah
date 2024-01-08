@@ -1,5 +1,22 @@
 <?php
+  // Mulai sesi jika belum dimulai
+  if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+  }
 
+  // // Periksa apakah pengguna sudah login
+  // if (!isset($_SESSION['role'])) {
+  //   // Jika belum login, redirect ke halaman login
+  //   header("Location: ../../../login.php");
+  //   exit();
+  // }
+
+  // Periksa apakah pengguna memiliki peran super admin
+  if ($_SESSION['role'] !== 'super admin') {
+    // Jika bukan super admin, tampilkan pesan atau redirect ke halaman lain
+    header("Location: ../../../login.php");
+    exit();
+  }
   $ds = DIRECTORY_SEPARATOR;
   $base_dir = realpath(dirname(__FILE__)  . $ds . '..' . $ds . '..'  . $ds . '..') . $ds;
   require_once("{$base_dir}pages{$ds}core{$ds}header.php");

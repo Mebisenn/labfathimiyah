@@ -29,29 +29,89 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     // Eksekusi query
     if (mysqli_query($db_connect, $query)) {
-        header('Location: computer.php'); // Redirect ke halaman utama setelah berhasil edit data
+        header('Location: computer.php?edited=true'); // Redirect ke halaman utama setelah berhasil edit data
         exit();
     } else {
         echo 'Error: ' . mysqli_error($db_connect);
     }
 }
 ?>
+<?php
+    // Mulai sesi jika belum dimulai
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
 
-<!-- Formulir Edit Data -->
-<form method="POST" action="editcomputer.php">
-    <input type="hidden" name="komputer_id" value="<?= $komputer_id ?>">
+    // Periksa apakah pengguna sudah login
+    if (!isset($_SESSION['role'])) {
+        // Jika belum login, redirect ke halaman login
+        header("Location: ../../../login.php");
+        exit();
+    }
 
-    <label for="nama_komputer">Nama Komputer:</label>
-    <input type="text" name="nama_komputer" value="<?= $nama_komputer ?>" required>
+    // Periksa apakah pengguna memiliki peran super admin atau admin
+    if ($_SESSION['role'] !== 'admin') {
+        // Jika bukan super admin atau admin, tampilkan pesan atau redirect ke halaman lain
+        header("Location: ../../../login.php");
+        exit();
+    }
 
-    <label for="spesifikasi_komputer">Spesifikasi Komputer:</label>
-    <input type="text" name="spesifikasi_komputer" value="<?= $spesifikasi_komputer ?>" required>
 
-    <label for="status_komputer">Status Komputer:</label>
-    <select name="status_komputer" required>
-        <option value="Aktif" <?= ($status_komputer == 'Aktif') ? 'selected' : ''; ?>>Aktif</option>
-        <option value="Non-Aktif" <?= ($status_komputer == 'Non-Aktif') ? 'selected' : ''; ?>>Non-Aktif</option>
-    </select>
+$ds = DIRECTORY_SEPARATOR;
+$base_dir = realpath(dirname(__FILE__) . $ds . '..' . $ds . '..' . $ds . '..') . $ds;
+require_once("{$base_dir}pages{$ds}core{$ds}header.php");
 
-    <button type="submit">Simpan Perubahan</button>
-</form>
+?>
+
+    <main id="main" class="main">
+        <div class="pagetitle">
+            <h1>Edit Data Komputer</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="computer.php">Data Komputer</a></li>
+                    <li class="breadcrumb-item active">Edit Data Komputer</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Edit Data Komputer</h5>
+    <!-- Formulir Edit Data -->
+        <form method="POST" action="editcomputer.php">
+            <input type="hidden" name="komputer_id" value="<?= $komputer_id ?>">
+            
+            <div class="row mb-3">
+                <label for="nama_komputer" class="col-sm-2 col-form-label">Nama Komputer:</label>
+                <div class="col-sm-10">
+                    <input type="text" name="nama_komputer" value="<?= $nama_komputer ?>" required>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="spesifikasi_komputer" class="col-sm-2 col-form-label">Spesifikasi Komputer:</label>
+                <div class="col-sm-10">
+                    <input type="text" name="spesifikasi_komputer" value="<?= $spesifikasi_komputer ?>" required>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="status_komputer" class="col-sm-2 col-form-label">Status Komputer:</label>
+                <div class="col-sm-10">
+                    <select name="status_komputer" required>
+                        <option value="Aktif" <?= ($status_komputer == 'Aktif') ? 'selected' : ''; ?>>Aktif</option>
+                        <option value="Non-Aktif" <?= ($status_komputer == 'Non-Aktif') ? 'selected' : ''; ?>>Non-Aktif</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                    <a href="computer.php">Kembali</a>
+                </div>
+            </div>
+        </form>
+    </main><!-- End #main -->
+
+<?php
+require_once("{$base_dir}pages{$ds}core{$ds}footer.php");
+?>

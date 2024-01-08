@@ -39,7 +39,7 @@ if (isset($_GET['id'])) {
             $update_query = "UPDATE tbl_kelas SET nama_kelas='$nama_kelas_baru' WHERE kelas_id=$kelas_id";
             if (mysqli_query($db_connect, $update_query)) {
                 // Alihkan ke halaman utama setelah pengeditan
-                header("Location: class.php");
+                header("Location: class.php?edited=true");
                 exit();
             } else {
                 // Handle error jika kueri tidak berhasil
@@ -55,20 +55,64 @@ if (isset($_GET['id'])) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Kelas</title>
-</head>
-<body>
-    <h1>Edit Kelas</h1>
-    <form method="POST">
-        <label for="nama_kelas_baru">Nama Kelas:</label>
-        <input type="text" id="nama_kelas_baru" name="nama_kelas_baru" value="<?=$nama_kelas_sebelum?>" required>
+<?php
+    // Mulai sesi jika belum dimulai
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
 
-        <button type="submit">Simpan</button>
-    </form>
-</body>
-</html>
+    // Periksa apakah pengguna sudah login
+    if (!isset($_SESSION['role'])) {
+        // Jika belum login, redirect ke halaman login
+        header("Location: ../../../login.php");
+        exit();
+    }
+
+    // Periksa apakah pengguna memiliki peran super admin atau admin
+    if ($_SESSION['role'] !== 'admin') {
+        // Jika bukan super admin atau admin, tampilkan pesan atau redirect ke halaman lain
+        header("Location: ../../../login.php");
+        exit();
+    }
+
+
+$ds = DIRECTORY_SEPARATOR;
+$base_dir = realpath(dirname(__FILE__) . $ds . '..' . $ds . '..' . $ds . '..') . $ds;
+require_once("{$base_dir}pages{$ds}core{$ds}header.php");
+
+?>
+    <main id="main" class="main">
+        <div class="pagetitle">
+            <h1>Edit Data Kelas</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="class.php">Data Kelas</a></li>
+                    <li class="breadcrumb-item active">Edit Data Kelas</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Tambah Data Kelas</h5>
+                <form method="POST">
+                    <div class="row mb-3">
+                        <label for="nama_kelas_baru" class="col-sm-2 col-form-label">Nama Kelas:</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="nama_kelas_baru" name="nama_kelas_baru" value="<?=$nama_kelas_sebelum?>" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <a href="class.php">Kembali</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main><!-- End #main -->
+
+<?php
+require_once("{$base_dir}pages{$ds}core{$ds}footer.php");
+?>
+

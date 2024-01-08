@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if (mysqli_query($db_connect, $updateQuery)) {
                 echo "Kata sandi berhasil diperbarui.";
-                header("Location: profile.php");
+                header("Location: profile.php?success=true");
         exit();
             } else {
                 echo "Error updating password: " . mysqli_error($db_connect);

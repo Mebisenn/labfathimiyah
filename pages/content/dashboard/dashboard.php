@@ -12,7 +12,7 @@
     }
 
     // Periksa apakah pengguna memiliki peran super admin atau admin
-    if ($_SESSION['role'] !== 'super admin' && $_SESSION['role'] !== 'admin') {
+    if ($_SESSION['role'] !== 'admin') {
         // Jika bukan super admin atau admin, tampilkan pesan atau redirect ke halaman lain
         header("Location: ../../../login.php");
         exit();
@@ -31,12 +31,10 @@ require_once("{$base_dir}pages{$ds}core{$ds}header.php");
         <h1>Dashboard</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-                <li class="breadcrumb-item active">Dashboard</li>
+                <li class="breadcrumb-item active">Data Jadwal</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
-    <h1>Data Lab</h1>
 
     <section class="section">
       <div class="row">
@@ -44,7 +42,69 @@ require_once("{$base_dir}pages{$ds}core{$ds}header.php");
           
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Datatables</h5>
+                <h5 class="card-title">Datatables</h5>
+                <?php
+                    $isOperationSuccess = isset($_GET['success']) && $_GET['success'] === 'true';
+                    $isDataEdited = isset($_GET['edited']) && $_GET['edited'] === 'true';
+                    $isDataDeleted = isset($_GET['deleted']) && $_GET['deleted'] === 'true';
+                ?>
+                <?php if ($isOperationSuccess): ?>
+                    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                        <i class="bi bi-plus-circle me-1"></i>
+                        Jadwal Berhasil Ditambahkan!
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+                        <script>
+                            const url = new URL(window.location.href);
+                            url.searchParams.delete('success');
+                            window.history.replaceState({}, document.title, url.href);
+
+                            setTimeout(function() {
+                                document.querySelector('.alert-primary').style.display = 'none';
+                            }, 2000);
+                        </script>
+
+                    </div>
+                <?php endif; ?>
+                <!-- Start Alert Edit -->
+                <?php if ($isDataEdited): ?>
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <i class="bi bi-pencil-square me-1"></i>
+                        Guru Berhasil Diedit!
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+                        <script>
+                            const url = new URL(window.location.href);
+                            url.searchParams.delete('edited');
+                            window.history.replaceState({}, document.title, url.href);
+
+                            setTimeout(function() {
+                                document.querySelector('.alert-warning').style.display = 'none';
+                            }, 2000);
+                        </script>
+
+                    </div>
+                <?php endif; ?>
+                <!-- End Alert Edit -->
+                <!-- Start Alert Deleted -->
+                <?php if ($isDataDeleted): ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-trash-fill me-1"></i>
+                        Guru Berhasil Dihapus!
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+                        <script>
+                            const url = new URL(window.location.href);
+                            url.searchParams.delete('deleted');
+                            window.history.replaceState({}, document.title, url.href);
+
+                            setTimeout(function() {
+                                document.querySelector('.alert-danger').style.display = 'none';
+                            }, 2000);
+                        </script>
+                    </div>
+                <?php endif; ?>
+                            <!-- End Alert Delete -->  
               <!-- Formulir Generate -->
                 <form method="post" action="gacha.php">
                     <button type="submit" class="btn btn-primary">><i class="bi bi-person-fill-add"></i>Generate</button>
@@ -52,6 +112,23 @@ require_once("{$base_dir}pages{$ds}core{$ds}header.php");
                 <!-- Formulir Tambah Data -->
                 <form method="get" action="tambah.php">
                     <button type="submit" class="btn btn-primary"><i class="bi bi-person-fill-add"></i>Tambah Data</button>
+                    <div class="modal fade" id="basicModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Basic Modal</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    apakah kamu ingin menambah data guru?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                                    <a type="button" href="addguru.php" type="button" class="btn btn-primary">Ya</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- End Basic Modal-->
                 </form>
               
                         <!-- Tabel Data Jadwal -->

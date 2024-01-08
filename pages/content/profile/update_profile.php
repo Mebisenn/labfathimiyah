@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['no_hp'] = $newCompany;
 
         echo "Data profil berhasil diperbarui";
-        header("Location: profile.php");
+        header("Location: profile.php?edited=true");
         exit();
     } else {
         echo "Error updating profile: " . mysqli_error($db_connect);

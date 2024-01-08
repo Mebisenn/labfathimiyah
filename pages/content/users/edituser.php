@@ -39,7 +39,7 @@ if (isset($_GET['id'])) {
             $update_query = "UPDATE tbl_users SET jabatan='$jabatan_baru' WHERE user_id=$user_id";
             if (mysqli_query($db_connect, $update_query)) {
                 // Alihkan ke halaman utama setelah pengeditan
-                header("Location: datauser.php");
+                header("Location: datauser.php?edited=true");
                 exit();
             } else {
                 // Handle error jika kueri tidak berhasil
@@ -54,21 +54,39 @@ if (isset($_GET['id'])) {
     die("User ID not provided");
 }
 ?>
+<?php
+// Mulai sesi jika belum dimulai
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+  }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit User</title>
-</head>
-<body>
-    <h1>Edit User</h1>
-    <form method="POST">
-        <label for="jabatan_baru">Jabatan User:</label>
-        <input type="text" id="jabatan_baru" name="jabatan_baru" value="<?=$jabatan_sebelum?>" required>
+  // // Periksa apakah pengguna sudah login
+  // if (!isset($_SESSION['role'])) {
+  //   // Jika belum login, redirect ke halaman login
+  //   header("Location: ../../../login.php");
+  //   exit();
+  // }
 
-        <button type="submit">Simpan</button>
-    </form>
-</body>
-</html>
+  // Periksa apakah pengguna memiliki peran super admin
+  if ($_SESSION['role'] !== 'super admin') {
+    // Jika bukan super admin, tampilkan pesan atau redirect ke halaman lain
+    header("Location: ../../../login.php");
+    exit();
+  }
+$ds = DIRECTORY_SEPARATOR;
+$base_dir = realpath(dirname(__FILE__)  . $ds . '..' . $ds . '..'  . $ds . '..') . $ds;
+require_once("{$base_dir}pages{$ds}core{$ds}header.php");
+
+?>
+    <main id="main" class="main">
+        <h1>Edit User</h1>
+        <form method="POST">
+            <label for="jabatan_baru">Jabatan User:</label>
+            <input type="text" id="jabatan_baru" name="jabatan_baru" value="<?=$jabatan_sebelum?>" required>
+
+            <button type="submit">Simpan</button>
+        </form>
+    </main>
+<?php
+  require_once("{$base_dir}pages{$ds}core{$ds}footer.php");
+?> 

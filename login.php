@@ -64,6 +64,56 @@
                     <p class="text-center small">Enter your email & password to login</p>
                   </div>
 
+                  <?php
+                                    $isError = isset($_GET['error']) && $_GET['error'] == '1';
+                                    $isInvalidCredentials = isset($_GET['error']) && $_GET['error'] === 'invalid_credentials';
+                                    ?>
+                                    <?php if ($isError): ?>
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <i class="bi bi-exclamation-triangle me-1"></i>
+                                        Password Salah!
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+
+                                        <script>
+                                        // Menghapus parameter error dari URL setelah alert ditutup
+                                        const url = new URL(window.location.href);
+                                        const params = new URLSearchParams(url.search);
+                                        params.delete('error');
+                                        url.search = params.toString();
+                                        window.history.replaceState({}, document.title, url.href);
+
+                                        // Menghilangkan alert setelah 2000 milidetik (2 detik)
+                                        setTimeout(function() {
+                                            document.querySelector('.alert-danger').style.display = 'none';
+                                        }, 10000);
+                                        </script>
+                                    </div>
+                                    <?php endif; ?>
+                                    <!-- Alert Email dan password salah -->
+                                    <?php if ($isInvalidCredentials): ?>
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <i class="bi bi-exclamation-triangle me-1"></i>
+                                        Email atau Password Salah!
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+
+                                        <script>
+                                        // Menghapus parameter error dari URL setelah alert ditutup
+                                        const url = new URL(window.location.href);
+                                        const params = new URLSearchParams(url.search);
+                                        params.delete('error');
+                                        url.search = params.toString();
+                                        window.history.replaceState({}, document.title, url.href);
+
+                                        // Menghilangkan alert setelah 2000 milidetik (2 detik)
+                                        setTimeout(function() {
+                                            document.querySelector('.alert-danger').style.display = 'none';
+                                        }, 10000);
+                                        </script>
+                                    </div>
+                                    <?php endif; ?>
+
                   <form action="backend/login.php" class="row g-3 needs-validation" novalidate method="post">
 
                     <div class="col-12">

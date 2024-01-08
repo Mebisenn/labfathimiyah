@@ -42,7 +42,7 @@ if (isset($_GET['id'])) {
             $update_query = "UPDATE tbl_ruangan SET no_ruangan='$no_ruangan_baru', kapasitas='$kapasitas_baru' WHERE ruangan_id=$ruangan_id";
             if (mysqli_query($db_connect, $update_query)) {
                 // Alihkan ke halaman utama setelah pengeditan
-                header("Location: room.php");
+                header("Location: room.php?edited=true");
                 exit();
             } else {
                 // Handle error jika kueri tidak berhasil
@@ -58,23 +58,69 @@ if (isset($_GET['id'])) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Ruangan</title>
-</head>
-<body>
-    <h1>Edit Ruangan</h1>
-    <form method="POST">
-        <label for="no_ruangan_baru">No Ruangan:</label>
-        <input type="text" id="no_ruangan_baru" name="no_ruangan_baru" value="<?=$no_ruangan_sebelum?>" required>
+<?php
+    // Mulai sesi jika belum dimulai
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
 
-        <label for="kapasitas_baru">Kapasitas:</label>
-        <input type="number" id="kapasitas_baru" name="kapasitas_baru" value="<?=$kapasitas_sebelum?>" required>
+    // Periksa apakah pengguna sudah login
+    if (!isset($_SESSION['role'])) {
+        // Jika belum login, redirect ke halaman login
+        header("Location: ../../../login.php");
+        exit();
+    }
 
-        <button type="submit">Simpan</button>
-    </form>
-</body>
-</html>
+    // Periksa apakah pengguna memiliki peran super admin atau admin
+    if ($_SESSION['role'] !== 'admin') {
+        // Jika bukan super admin atau admin, tampilkan pesan atau redirect ke halaman lain
+        header("Location: ../../../login.php");
+        exit();
+    }
+
+$ds = DIRECTORY_SEPARATOR;
+$base_dir = realpath(dirname(__FILE__) . $ds . '..' . $ds . '..' . $ds . '..') . $ds;
+require_once("{$base_dir}pages{$ds}core{$ds}header.php");
+?>
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Edit Data Ruangan</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="room.php">Data Ruangan</a></li>
+                <li class="breadcrumb-item active">Edit Data Ruangan</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Edit Data Ruangan</h5>
+        <form method="POST">
+            <div class="row mb-3">
+                <label for="no_ruangan_baru" class="col-sm-2 col-form-label">No Ruangan:</label>
+                <div class="col-sm-10">
+                    <input type="text" id="no_ruangan_baru" name="no_ruangan_baru" value="<?=$no_ruangan_sebelum?>" required>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="kapasitas_baru" class="col-sm-2 col-form-label">Kapasitas:</label>
+                <div class="col-sm-10">
+                    <input type="number" id="kapasitas_baru" name="kapasitas_baru" value="<?=$kapasitas_sebelum?>" required>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <a href="room.php">Kembali</a>
+                </div>
+            </div>
+        </form>
+    </main><!-- End #main -->
+
+<?php
+require_once("{$base_dir}pages{$ds}core{$ds}footer.php");
+?>
+

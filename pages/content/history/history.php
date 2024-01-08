@@ -35,7 +35,6 @@ require_once("{$base_dir}pages{$ds}core{$ds}header.php");
             </ol>
         </nav>
     </div><!-- End Page Title -->
-    <h1>Data Lab</h1>
 
     <section class="section">
         <div class="row">
@@ -62,30 +61,7 @@ require_once("{$base_dir}pages{$ds}core{$ds}header.php");
                                 <?php
                                require '../../../config/db.php';
 
-                               $periode_jadwal = mysqli_query($db_connect, "
-                                SELECT 
-                                    periode.id_periode,
-                                    periode.semester,
-                                    jadwal.id_jadwal,
-                                    mapel.nama_mapel,
-                                    guru.nama_guru,
-                                    ruangan.no_ruangan,
-                                    kelas.nama_kelas,
-                                    hari.nama_hari,
-                                    waktu.waktu_mulai,
-                                    waktu.waktu_selesai
-                                FROM tbl_jadwal jadwal
-                                LEFT JOIN tbl_periode periode ON periode.id_jadwal = jadwal.id_jadwal
-                                JOIN tbl_hari hari ON jadwal.hari_id = hari.hari_id
-                                JOIN tbl_waktu waktu ON jadwal.waktu_id = waktu.waktu_id
-                                JOIN tbl_mapel mapel ON jadwal.mapel_id = mapel.mapel_id
-                                JOIN tbl_kelas kelas ON jadwal.kelas_id = kelas.kelas_id
-                                JOIN tbl_guru guru ON jadwal.guru_id = guru.guru_id
-                                JOIN tbl_ruangan ruangan ON jadwal.ruangan_id = ruangan.ruangan_id
-                                WHERE periode.semester IS NOT NULL
-                                ");
-
-                                              
+                               $periode_jadwal = mysqli_query($db_connect, "SELECT * FROM tbl_periode");
 
                             $no = 1;
                             

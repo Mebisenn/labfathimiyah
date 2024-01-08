@@ -19,7 +19,7 @@
 
 
         $ResultQueryAddUser = mysqli_query($db_connect, $QueryAddUser);
-        header("Location: datauser.php");
+        header("Location: datauser.php?success=true");
         exit();
     }
 
