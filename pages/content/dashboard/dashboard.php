@@ -70,7 +70,7 @@ require_once("{$base_dir}pages{$ds}core{$ds}header.php");
                 <?php if ($isDataEdited): ?>
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
                         <i class="bi bi-pencil-square me-1"></i>
-                        Guru Berhasil Diedit!
+                        Jadwal Berhasil Diedit!
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 
                         <script>
@@ -90,7 +90,7 @@ require_once("{$base_dir}pages{$ds}core{$ds}header.php");
                 <?php if ($isDataDeleted): ?>
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="bi bi-trash-fill me-1"></i>
-                        Guru Berhasil Dihapus!
+                        Jadwal Berhasil Dihapus!
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 
                         <script>
@@ -116,11 +116,11 @@ require_once("{$base_dir}pages{$ds}core{$ds}header.php");
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Basic Modal</h5>
+                                    <h5 class="modal-title">Tambah Jadwal</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    apakah kamu ingin menambah data guru?
+                                    apakah kamu ingin menambah data Jadwal?
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
