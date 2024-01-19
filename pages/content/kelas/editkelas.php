@@ -69,7 +69,7 @@ if (isset($_GET['id'])) {
     }
 
     // Periksa apakah pengguna memiliki peran super admin atau admin
-    if ($_SESSION['role'] !== 'admin') {
+    if ($_SESSION['role'] !== 'super admin' && $_SESSION['role'] !== 'admin') {
         // Jika bukan super admin atau admin, tampilkan pesan atau redirect ke halaman lain
         header("Location: ../../../login.php");
         exit();
@@ -93,7 +93,7 @@ require_once("{$base_dir}pages{$ds}core{$ds}header.php");
         </div>
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Tambah Data Kelas</h5>
+                <h5 class="card-title">Edit Data Kelas</h5>
                 <form method="POST">
                     <div class="row mb-3">
                         <label for="nama_kelas_baru" class="col-sm-2 col-form-label">Nama Kelas:</label>

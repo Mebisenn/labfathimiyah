@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Periksa apakah pengguna memiliki peran super admin atau admin
-    if ($_SESSION['role'] !== 'admin') {
+    if ($_SESSION['role'] !== 'super admin' && $_SESSION['role'] !== 'admin') {
         // Jika bukan super admin atau admin, tampilkan pesan atau redirect ke halaman lain
         header("Location: ../../../login.php");
         exit();

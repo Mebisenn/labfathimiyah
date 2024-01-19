@@ -79,13 +79,32 @@ require_once("{$base_dir}pages{$ds}core{$ds}header.php");
 
 ?>
     <main id="main" class="main">
-        <h1>Edit User</h1>
-        <form method="POST">
-            <label for="jabatan_baru">Jabatan User:</label>
-            <input type="text" id="jabatan_baru" name="jabatan_baru" value="<?=$jabatan_sebelum?>" required>
-
-            <button type="submit">Simpan</button>
-        </form>
+        <div class="pagetitle">
+            <h1>Edit Data User</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="datauser.php">Data User</a></li>
+                    <li class="breadcrumb-item active">Edit Data User</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Edit Data User</h5>
+                <form method="POST">
+                    <div class="row mb-3">
+                        <label for="jabatan_baru" class="col-sm-2 col-form-label">Jabatan User:</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="jabatan_baru" name="jabatan_baru" value="<?=$jabatan_sebelum?>" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <a href="datauser.php">Kembali</a>
+                        </div>
+                    </div>
+                </form>
     </main>
 <?php
   require_once("{$base_dir}pages{$ds}core{$ds}footer.php");

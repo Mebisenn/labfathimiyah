@@ -43,7 +43,7 @@
   <header id="header" class="fixed-top ">
     <div class="container d-flex align-items-center">
 
-      <h1 class="logo text-capitalize me-auto"><a href="index.html">LabFathimiyah</a></h1>
+      <h1 class="logo text-capitalize me-auto"><a href="#">LabFathimiyah</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -51,7 +51,7 @@
         <ul>
           <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
           <li><a class="nav-link scrollto" href="#about">Jadwal</a></li>
-          <li><a class="nav-link scrollto" href="#services">Status</a></li>
+          <li><a class="nav-link scrollto" href="#services">Data Lab</a></li>
         
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
@@ -117,7 +117,7 @@
       <div class="container" data-aos="fade-up">
 
         <div class="section-title">
-          <h2>Status</h2>
+          <h2>Data Lab</h2>
         </div>
 
         <div class="row">
@@ -173,8 +173,6 @@
               Jl. Raya Pinayungan No.69,<br>
               Pinayungan, Kec. Telukjambe Timur,<br>
               Kab. Karawang, Jawa Barat <br><br>
-              <strong>Phone:</strong> +1 5589 55488 55<br>
-              <strong>Email:</strong> info@example.com<br>
             </p>
           </div>
 
@@ -182,8 +180,8 @@
             <h4> </h4>
             <ul>
               <li><i class="bx bx-chevron-right"></i> <a href="#hero">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#about">About us</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#services">Services</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#about">Jadwal</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#services">Data Lab</a></li>
             </ul>
           </div>
 
@@ -193,7 +191,7 @@
             <div class="social-links mt-3">
               <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
               <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-              <a href="https://instagram.com/ryusennsenn?igshid=NzZlODBkYWE4Ng==" class="instagram"><i class="bx bxl-instagram"></i></a>
+              <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
               <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
               <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
             </div>
@@ -212,7 +210,7 @@
         <!-- You can delete the links only if you purchased the pro version. -->
         <!-- Licensing information: https://bootstrapmade.com/license/ -->
         <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/arsha-free-bootstrap-html-template-corporate/ -->
-        Designed by <a href="https://bootstrapmade.com/">Mhs IT UBPK</a>
+        Designed by <a href="#">Mhs IT UBPK</a>
       </div>
     </div>
   </footer><!-- End Footer -->

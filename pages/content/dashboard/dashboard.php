@@ -28,7 +28,7 @@ require_once("{$base_dir}pages{$ds}core{$ds}header.php");
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Dashboard</h1>
+        <h1>Data Jadwal</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active">Data Jadwal</li>
@@ -110,8 +110,8 @@ require_once("{$base_dir}pages{$ds}core{$ds}header.php");
                     <button type="submit" class="btn btn-primary">><i class="bi bi-person-fill-add"></i>Generate</button>
                 </form><br>
                 <!-- Formulir Tambah Data -->
-                <form method="get" action="tambah.php">
-                    <button type="submit" class="btn btn-primary"><i class="bi bi-person-fill-add"></i>Tambah Data</button>
+                <p>
+                    <a href="tambah.php" type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal"><i class="bi bi-person-fill-add"></i>Tambah Data</a>
                     <div class="modal fade" id="basicModal" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -124,12 +124,12 @@ require_once("{$base_dir}pages{$ds}core{$ds}header.php");
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
-                                    <a type="button" href="addguru.php" type="button" class="btn btn-primary">Ya</a>
+                                    <a type="button" href="tambah.php" type="button" class="btn btn-primary">Ya</a>
                                 </div>
                             </div>
                         </div>
                     </div><!-- End Basic Modal-->
-                </form>
+                </p>
               
                         <!-- Tabel Data Jadwal -->
                         <table class="table datatable">

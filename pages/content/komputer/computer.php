@@ -12,7 +12,7 @@
     }
 
     // Periksa apakah pengguna memiliki peran super admin atau admin
-    if ($_SESSION['role'] !== 'admin') {
+    if ($_SESSION['role'] !== 'super admin' && $_SESSION['role'] !== 'admin') {
         // Jika bukan super admin atau admin, tampilkan pesan atau redirect ke halaman lain
         header("Location: ../../../login.php");
         exit();
@@ -44,7 +44,7 @@ require_once("{$base_dir}pages{$ds}core{$ds}header.php");
                     <div class="card-body">
                         <h5 class="card-title">Data Komputer</h5>
                         <p>
-                            <a href="addcomputer.php" type="button" class="btn btn-primary"><i class="bi bi-person-fill-add"></i> Tambah Komputer</a>
+                            <a href="addcomputer.php" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal"><i class="bi bi-person-fill-add"></i> Tambah Komputer</a>
                             <div class="modal fade" id="basicModal" tabindex="-1">
                                 <div class="modal-dialog">
                                     <div class="modal-content">

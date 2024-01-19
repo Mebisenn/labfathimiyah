@@ -7,12 +7,10 @@ require_once("{$base_dir}pages{$ds}coreuser{$ds}header.php");
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Form Validation</h1>
+        <h1>Data Ruangan</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item">Forms</li>
-                <li class="breadcrumb-item active">Validation</li>
+                <li class="breadcrumb-item active">Data Ruangan</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->

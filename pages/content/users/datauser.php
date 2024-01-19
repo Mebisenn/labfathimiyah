@@ -18,12 +18,10 @@
   <main id="main" class="main">
     
     <div class="pagetitle">
-      <h1>Data Tables</h1>
+      <h1>Data User</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item">Tables</li>
-          <li class="breadcrumb-item active">Data</li>
+          <li class="breadcrumb-item active">Data User</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -34,14 +32,14 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Data Tabel User</h5>
+              <h5 class="card-title">Data User</h5>
               <p>
-              <a href="adduser.php" type="button" class="btn btn-primary"><i class="bi bi-person-fill-add"></i> Add User</a>
+              <a href="adduser.php" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal"><i class="bi bi-person-fill-add"></i> Add User</a>
               <div class="modal fade" id="basicModal" tabindex="-1">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                        <h5 class="modal-title">Basic Modal</h5>
+                                        <h5 class="modal-title">Tambah Data User</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                     <div class="modal-body">

@@ -93,45 +93,106 @@ require_once("{$base_dir}pages{$ds}core{$ds}header.php");
             <h5 class="card-title">Edit Data Jadwal</h5>
         <form method="POST">
             <div class="row mb-3">
-                <label for="mapel_baru" class="col-sm-2 col-form-label">Nama Mapel :</label>
-                <div class="col-sm-10">
-                    <input type="text" id="mapel_baru" name="mapel_baru" value="<?=$tbl_jadwal['mapel_id']?>" required>
-                </div>
+                <label for="guru_baru" class="col-sm-2 col-form-label">Nama Guru:</label>
+                    <div class="col-sm-10">
+                        <select id="guru_baru" name="guru_baru" required>
+                            <?php
+                            require '../../../config/db.php';
+                            // Ambil data dari tabel tbl_guru
+                            $guruQuery = "SELECT * FROM tbl_guru";
+                            $guruResult = mysqli_query($db_connect, $guruQuery);
+
+                            while ($row = mysqli_fetch_assoc($guruResult)) {
+                                echo "<option value='{$row['guru_id']}'>{$row['nama_guru']}</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
             </div>
 
             <div class="row mb-3">
-                <label for="guru_baru" class="col-sm-2 col-form-label">Nama Guru :</label>
-                <div class="col-sm-10">    
-                    <input type="text" id="guru_baru" name="guru_baru" value="<?=$tbl_jadwal['guru_id']?>" required>
-                </div>
+                <label for="hari_baru" class="col-sm-2 col-form-label">Nama Hari:</label>
+                    <div class="col-sm-10">
+                        <select id="hari_baru" name="hari_baru" required>
+                            <?php
+                            // Ambil data dari tabel tbl_hari
+                            $hariQuery = "SELECT * FROM tbl_hari";
+                            $hariResult = mysqli_query($db_connect, $hariQuery);
+
+                            while ($row = mysqli_fetch_assoc($hariResult)) {
+                                echo "<option value='{$row['hari_id']}'>{$row['nama_hari']}</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
             </div>
 
             <div class="row mb-3">
-                <label for="ruangan_baru" class="col-sm-2 col-form-label">Ruangan :</label>
-                <div class="col-sm-10">
-                    <input type="text" id="ruangan_baru" name="ruangan_baru" value="<?=$tbl_jadwal['ruangan_id']?>" required>
-                </div>
+                <label for="ruangan_baru" class="col-sm-2 col-form-label">Ruangan:</label>
+                    <div class="col-sm-10">
+                        <select id="ruangan_baru" name="ruangan_baru" required>
+                            <?php
+                            // Ambil data dari tabel tbl_ruangan
+                            $ruanganQuery = "SELECT * FROM tbl_ruangan";
+                            $ruanganResult = mysqli_query($db_connect, $ruanganQuery);
+
+                            while ($row = mysqli_fetch_assoc($ruanganResult)) {
+                                echo "<option value='{$row['ruangan_id']}'>{$row['no_ruangan']}</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
             </div>
 
             <div class="row mb-3">
-                <label for="kelas_baru" class="col-sm-2 col-form-label">Nama Kelas :</label>
-                <div class="col-sm-10">
-                    <input type="text" id="kelas_baru" name="kelas_baru" value="<?=$tbl_jadwal['kelas_id']?>" required>
-                </div>
+                <label for="kelas_baru" class="col-sm-2 col-form-label">Nama Kelas:</label>
+                    <div class="col-sm-10">
+                        <select id="kelas_baru" name="kelas_baru" required>
+                            <?php
+                            // Ambil data dari tabel tbl_kelas
+                            $kelasQuery = "SELECT * FROM tbl_kelas";
+                            $kelasResult = mysqli_query($db_connect, $kelasQuery);
+
+                            while ($row = mysqli_fetch_assoc($kelasResult)) {
+                                echo "<option value='{$row['kelas_id']}'>{$row['nama_kelas']}</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
             </div>
 
             <div class="row mb-3">
-                <label for="hari_baru" class="col-sm-2 col-form-label">Nama Hari :</label>
-                <div class="col-sm-10">
-                    <input type="text" id="hari_baru" name="hari_baru" value="<?=$tbl_jadwal['hari_id']?>" required>
-                </div>
+                <label for="mapel_baru" class="col-sm-2 col-form-label">Nama Mapel:</label>
+                    <div class="col-sm-10">
+                        <select id="mapel_baru" name="mapel_baru" required>
+                            <?php
+                            // Ambil data dari tabel tbl_mapel
+                            $mapelQuery = "SELECT * FROM tbl_mapel";
+                            $mapelResult = mysqli_query($db_connect, $mapelQuery);
+
+                            while ($row = mysqli_fetch_assoc($mapelResult)) {
+                                echo "<option value='{$row['mapel_id']}'>{$row['nama_mapel']}</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
             </div>
 
             <div class="row mb-3">
-                <label for="waktu_baru" class="col-sm-2 col-form-label">Waktu :</label>
-                <div class="col-sm-10">
-                    <input type="text" id="waktu_baru" name="waktu_baru" value="<?=$tbl_jadwal['waktu_id']?>" required>
-                </div>
+                <label for="waktu_baru" class="col-sm-2 col-form-label">Waktu:</label>
+                    <div class="col-sm-10">
+                        <select id="waktu_baru" name="waktu_baru" required>
+                            <?php
+                            // Ambil data dari tabel tbl_waktu
+                            $waktuQuery = "SELECT * FROM tbl_waktu";
+                            $waktuResult = mysqli_query($db_connect, $waktuQuery);
+
+                            while ($row = mysqli_fetch_assoc($waktuResult)) {
+                                echo "<option value='{$row['waktu_id']}'>{$row['waktu_mulai']}-{$row['waktu_selesai']}</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
             </div>
 
             <div class="row mb-3">
