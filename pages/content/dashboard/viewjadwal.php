@@ -24,6 +24,7 @@ require_once("{$base_dir}pages{$ds}coreuser{$ds}header.php");
               <h5 class="card-title">Datatables</h5>
              
                         <!-- Tabel Data Jadwal -->
+                    <div class="table-responsive">
                         <table class="table datatable">
                             <thead>
                                 <tr>
